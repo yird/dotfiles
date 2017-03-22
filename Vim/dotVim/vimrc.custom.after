@@ -1,0 +1,13 @@
+" Overwrite this file with whatever you want. This will be executed after
+" loading any of the stock bundles/settings.
+let g:jsx_ext_required = 0
+let ayucolor="mirage" " for mirage version of theme
+colorscheme ayu
+" IndentLine {{
+let g:indentLine_char = ''
+let g:indentLine_first_char = ''
+let g:indentLine_showFirstIndentLevel = 1
+let g:indentLine_setColors = 0
+" }}
+
+

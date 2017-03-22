@@ -1,0 +1,156 @@
+
+
+# Labelled Argument
+snippet la "aa::aa" !
+${1:name}::$1 $0
+endsnippet
+# Labelled Argument Typed
+snippet lat "aa::(aa:foo)" !
+${1:name}::($1:${2:type}) $0
+endsnippet
+
+snippet obj; "{};" !
+{
+	$0
+};
+endsnippet
+
+snippet l "let x ...;" !
+let ${1:binding} = $0;
+endsnippet
+
+snippet lf "let f x ...;" !
+let ${1:binding} ${2:arg} => $0;
+endsnippet
+
+snippet lam "let f x ...;" !
+fun ${1:arg} => $0
+endsnippet
+
+snippet lam; "let f x ...;" !
+fun ${1:arg} => $0;
+endsnippet
+
+snippet lam, "let f x ...;" !
+fun ${1:arg} => $0,
+endsnippet
+
+snippet t "type ...;" !
+type ${1:binding} =$0;
+endsnippet
+
+snippet m "module Name = {};" !w
+module ${1:ModuleName} = {
+	$0
+};
+endsnippet
+
+snippet mt "module type ModuleType = {};" !w
+module type ${1:ModuleName} = {
+	$0
+};
+endsnippet
+
+
+snippet time "Sys.time() wraper" !w
+let startSeconds = Sys.time ();
+${VISUAL}
+$0
+let endSeconds = Sys.time ();
+Printf.printf "\nTotal ms (${1:Title}): %d\n" (int_of_float ((endSeconds -. startSeconds) *. 1000.0));
+endsnippet
+
+
+
+
+snippet log "print_string" !w
+print_string (${0:expr});
+print_newline ();
+endsnippet
+
+# Cleverly evaporates the semicolon if you continue with an else
+snippet while "while exrp {}" !w
+while`!p snip.rv = ' (' if ' ' in t[1] else ' '`${1:expr}`!p snip.rv = ')' if ' ' in t[1] else ''` {
+	$0;
+};
+endsnippet
+
+snippet for "for i in x to y {}" !w
+for ${1:i} in ${2:first} to ${3:last} {
+	$0;
+};
+endsnippet
+
+# Cleverly evaporates the semicolon if you continue with an else
+snippet if "if else" !w
+if`!p snip.rv = ' (' if ' ' in t[1] else ' '`${1:expr}`!p snip.rv = ')' if ' ' in t[1] else ''` {
+	${2:thenExpr};
+}${3: else}`!p snip.rv = '' if t[3] else ';'`$0
+endsnippet
+
+snippet else "if else" !w
+else {
+	${1:thenExpr};
+};$0
+endsnippet
+
+
+# Tabs before each bar, notice how 4 actually contains 7. It's ugly because it
+# had to be placed on one line.
+#
+# | ${2:caseOne} => ${3:exprOne}`!p snip.rv = '\n' if t[4] else ''`
+# ${4:	| ${5:caseTwo} => ${6:exprTwo}`!p snip.rv = '\n' if t[7] else ''`
+# ${7:	| ${8:caseThree} => ${9:exprThree}}}
+# snippet sw "switch pattern {}" !w
+# switch ${1:`!p snip.rv = snip.v.text.strip() if snip.v else 'expr'`} {
+# 	| ${2:caseOne} => ${3:exprOne}${4:
+# 	| ${5:caseTwo} => ${6:exprTwo}${7:
+# 	| ${8:caseThree} => ${9:exprThree}}}
+# }
+# endsnippet
+
+# Cursor is placed on the next line, right where another tab will trigger
+# expansion of another case.
+snippet "\|"  "one more switch case" rwb
+| ${1:destructure} => ${2:expression}
+endsnippet
+
+snippet sw "switch pattern {}" !w
+switch ${1:`!p snip.rv = snip.v.text.strip() if snip.v else 'expr'`} {
+	| ${2:caseOne} => ${3:exprOne}
+}
+endsnippet
+
+snippet sw; "switch pattern {};" !w
+switch ${1:`!p snip.rv = snip.v.text.strip() if snip.v else 'expr'`} {
+	| ${2:caseOne} => ${3:exprOne}
+};
+endsnippet
+
+snippet sc "special comment " !w
+/**
+ * $0
+ */
+endsnippet
+
+snippet com "(* Inline Comment *)" !w
+/*
+ * $0
+ */
+endsnippet
+
+snippet ic "(* Inline Comment *)" !w
+/* $0 */
+endsnippet
+
+
+# Give priority to else if, over if.
+priority 100
+
+snippet "else if" "if else" !w
+else if`!p snip.rv = ' (' if ' ' in t[1] else ' '`${1:expr}`!p snip.rv = ')' if ' ' in t[1] else ''` {
+	${2:thenExpr};
+}${3: else}`!p snip.rv = '' if t[3] else ';'`$0
+endsnippet
+
+# vim:ft=snippets:
